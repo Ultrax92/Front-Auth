@@ -45,7 +45,7 @@ const Register = () => {
       console.log("Inscription réussie :", data);
       navigate("/");
     } catch (err) {
-      console.error("❌ Erreur développeurs :", err);
+      console.error("Erreur développeurs :", err);
       setError("Une erreur est survenue. Veuillez réessayer plus tard.");
     }
   };
