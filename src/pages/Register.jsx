@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { Form, Button, Container, Card, Row, Col, Alert } from "react-bootstrap";
 
 const Register = () => {
@@ -9,7 +10,7 @@ const Register = () => {
   });
 
   const [error, setError] = useState(null);
-
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -20,7 +21,6 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
 
     console.log("Form submitted:", formData);
 
@@ -43,8 +43,10 @@ const Register = () => {
       }
 
       console.log("Inscription réussie :", data);
+      navigate("/");
     } catch (err) {
-      setError(err.message);
+      console.error("❌ Erreur développeurs :", err);
+      setError("Une erreur est survenue. Veuillez réessayer plus tard.");
     }
   };
 
