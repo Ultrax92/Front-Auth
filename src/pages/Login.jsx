@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { Form, Button, Container, Card, Row, Col } from "react-bootstrap";
 
 const LoginPage = () => {
@@ -7,6 +8,9 @@ const LoginPage = () => {
     password: "",
   });
 
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -14,14 +18,32 @@ const LoginPage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    // Don't forget to handle errors, both for yourself (dev) and for the client (via a Bootstrap Alert):
-    //   - Show an error if credentials are invalid
-    //   - Show a generic error for all other cases
-    // On success, redirect to the Pro Offers page
+
     console.log("Login submitted:", formData);
+
+    try {
+      const response = await fetch("https://offers-api.digistos.com/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Erreur de connexion");
+      }
+
+      console.log("Connexion réussie - token :", data.token);
+      navigate("/offers");
+    } catch (err) {
+      console.error("Erreur développeur :", err);
+      setError("Email ou mot de passe incorrect.");
+    }
   };
 
   return (
@@ -30,6 +52,7 @@ const LoginPage = () => {
         <Col xs={12} sm={8} md={6} lg={4}>
           <Card className="p-4 shadow-lg">
             <h2 className="text-center mb-4">Se connecter</h2>
+            {error && <p style={{ color: "red" }}>{error}</p>}
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="loginEmail">
                 <Form.Label>Email</Form.Label>
