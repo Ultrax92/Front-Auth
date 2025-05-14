@@ -10,13 +10,15 @@ const Offer = () => {
 
   useEffect(() => {
     const fetchOffer = async () => {
+      const token = JSON.parse(localStorage.getItem("auth"))?.token;
+
       try {
         const response = await fetch(
           `https://offers-api.digistos.com/api/offers/${id}`,
           {
             headers: {
               Accept: "application/json",
-              // Add Authorization token
+              Authorization: `Bearer ${token}`,
             },
           }
         );

@@ -39,6 +39,11 @@ const LoginPage = () => {
         throw { status: response.status, message: data.message };
       }
 
+      localStorage.setItem("auth", JSON.stringify({
+        token: data.access_token,
+        expiresAt: new Date(Date.now() + data.expires_in * 1000).toISOString(),
+      }));
+
       console.log("Connexion réussie - token :", data.token);
       navigate("/offres/professionnelles");
     } catch (err) {
