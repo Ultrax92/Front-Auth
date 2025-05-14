@@ -31,6 +31,7 @@ const Register = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Accept": "application/json",
           },
           body: JSON.stringify(formData),
         }
@@ -39,7 +40,12 @@ const Register = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Erreur lors de l'inscription.");
+        const data = await response.json();
+        const err = new Error(
+          data.message || "Une erreur est survenue lors de l'inscription."
+        );
+        err.status = response.status;
+        throw err;
       }
 
       console.log("Inscription réussie :", data);

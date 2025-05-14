@@ -28,6 +28,7 @@ const LoginPage = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -35,14 +36,19 @@ const LoginPage = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Erreur de connexion");
+        throw { status: response.status, message: data.message };
       }
 
       console.log("Connexion réussie - token :", data.token);
-      navigate("/offers");
+      navigate("/offres/professionnelles");
     } catch (err) {
       console.error("Erreur développeur :", err);
-      setError("Email ou mot de passe incorrect.");
+
+      if (err.status === 401) {
+        setError("Email ou mot de passe incorrect.");
+      } else {
+        setError("Une erreur est survenue. Veuillez réessayer plus tard.");
+      }
     }
   };
 
@@ -52,7 +58,7 @@ const LoginPage = () => {
         <Col xs={12} sm={8} md={6} lg={4}>
           <Card className="p-4 shadow-lg">
             <h2 className="text-center mb-4">Se connecter</h2>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="loginEmail">
                 <Form.Label>Email</Form.Label>
