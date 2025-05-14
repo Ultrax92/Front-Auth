@@ -34,6 +34,7 @@ const LoginPage = () => {
       });
 
       const data = await response.json();
+      console.log("Contenu brut de data :", data);
 
       if (!response.ok) {
         throw { status: response.status, message: data.message };
@@ -44,7 +45,7 @@ const LoginPage = () => {
         expiresAt: new Date(Date.now() + data.expires_in * 1000).toISOString(),
       }));
 
-      console.log("Connexion réussie - token :", data.token);
+      console.log("Connexion réussie - token :", data.access_token);
       navigate("/offres/professionnelles");
     } catch (err) {
       console.error("Erreur développeur :", err);
