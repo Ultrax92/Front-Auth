@@ -6,9 +6,9 @@ const Logout = () => {
 
   useEffect(() => {
     const handleLogout = async () => {
-      const token = JSON.parse(localStorage.getItem("auth"))?.token;
+      const auth = JSON.parse(localStorage.getItem("auth"));
 
-      if (token) {
+      if (auth) {
         await fetch("https://offers-api.digistos.com/api/auth/logout", {
           method: "POST",
           headers: {

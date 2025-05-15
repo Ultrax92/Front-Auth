@@ -40,7 +40,10 @@ const LoginPage = () => {
         throw { status: response.status, message: data.message };
       }
 
-      console.log("Connexion réussie - token :", data.token);
+      localStorage.setItem('auth', JSON.stringify({
+        expiresAt: new Date(Date.now() + data.expires_in * 1000).toISOString()
+      }));
+
       navigate("/offres/professionnelles");
     } catch (err) {
       console.error("Erreur développeur :", err);
