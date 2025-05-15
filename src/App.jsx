@@ -16,8 +16,12 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/inscription" element={<Register />} />
         <Route path="/connexion" element={<Login />} />
-        <Route path="/deconnexion" element={<Logout />} />
-        <Route path="/offres/professionnelles" element={<OfferProList />} />
+
+        <Route element={<PrivateRoute />}>
+          <Route path="/deconnexion" element={<Logout />} />
+          <Route path="/offres/professionnelles" element={<OfferProList />} />
+        </Route>
+
         <Route path="/offres/publiques" element={<OfferPublicList />} />
         <Route path="/offre/:id" element={<Offer />} />
         <Route path="*" element={<NotFound />} />
