@@ -13,8 +13,9 @@ const Logout = () => {
           method: "POST",
           headers: {
             Accept: "application/json",
+            credentials: "include",
           },
-          credentials:"include",
+          
         });
       }
 
@@ -22,10 +23,10 @@ const Logout = () => {
       navigate("/connexion");
     };
 
-  handleLogout();
-}, [navigate]);
+    handleLogout();
+  }, [navigate]);
 
-return null; // Pas besoin d'afficher quoi que ce soit
+  return null; // Pas besoin d'afficher quoi que ce soit
 };
 
 export default Logout;
