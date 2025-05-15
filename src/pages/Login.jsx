@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Form, Button, Container, Card, Row, Col } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../store/authSlice";
+
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +13,7 @@ const LoginPage = () => {
 
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData({
@@ -39,8 +43,14 @@ const LoginPage = () => {
         throw { status: response.status, message: data.message };
       }
 
-      console.log("Connexion réussie - token :", data.token);
+      dispatch(
+        loginSuccess({
+          token: data.access_token,
+          expiresAt: new Date(Date.now() + data.expires_in * 1000).toISOString(),
+        })
+      );
       navigate("/offres/professionnelles");
+
     } catch (err) {
       console.error("Erreur développeur :", err);
 
