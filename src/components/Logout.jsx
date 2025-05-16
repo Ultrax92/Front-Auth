@@ -13,9 +13,8 @@ const Logout = () => {
           method: "POST",
           headers: {
             Accept: "application/json",
-            credentials: "include",
           },
-          
+          credentials: "include",
         });
       }
 
